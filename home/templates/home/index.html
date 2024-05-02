@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'home/main.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="{% url 'index' %}">IrrigatePro</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'historic_data' %}">historic datas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'graphs' %}">Graphs</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  
+    <!-- Form Section -->
+      <div  style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div class="container">
+          <div class="container heading">
+            <h4>Get Irrigation Management Details</h4>
+            <p>Please fill out the form below to receive irrigation management details.</p>
+            <div class="step-indicator mb-3">
+                <p>Step <span id="currentStep">1</span> of <span id="totalSteps">4</span></p>
+            </div>
+          </div>
+          <div class="container form-container">
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <form action="{% url 'results' %}" method="POST" >
+                  {% csrf_token %}
+                  <div class="form-group">
+                      <input placeholder="Enter your city name eg Dar es salaam" type="text" class="form-control" id="city" name="city" required>
+                  </div>
+                  <div class="form-group">
+                      <select class="form-control" id="dropdown" name="yr" required>
+                        <option value="leap year">Leap year</option>
+                        <option value="normal year">Standard year</option>
+                      </select>
+                      <div id="emailHelp" class="form-text">Leap or Standard? Customize your year type with a simple click!</div>
+                  </div>
+                  <div class="form-group">
+                    <input placeholder="Enter area of the field to be irrigated in square milimeter" type="number" class="form-control" id="Ai" name="Ai" required>
+                  </div>
+                    <div class="form-group">
+                      <input placeholder="Enter Crop coefficient value" type="number" class="form-control" id="KC" name="KC" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary submit">Submit</button>
+
+                </form>
+              </div>
+                </div>
+            </div>
+          </div>
+      
+
+    </div>
+    
+    
+  
+    <!-- Bootstrap JS and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="{% static 'home/main.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Charts/Graphs</title>
+    <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/results.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Include necessary JavaScript libraries -->
+    
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <a class="navbar-brand" href="{% url 'index' %}">IrrigatePro</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'historic_data' %}">historic datas</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; margin-top:160px">
+        <div style="padding:50px, margin-top:40px" class="container">
+            <canvas id="myChart"></canvas>
+        </div>
+        <div style="padding:50px, margin-top:40px" class="container">
+            <canvas id="myChart2"></canvas>
+        </div>
+      </div>
+
+
+    {% comment %} <div id="container" style="height: 100vh; padding:20px">
+        <canvas style="padding:50px, margin-top:40px" id="myChart2"></canvas>
+    </div> {% endcomment %}
+    
+    <script>
+        // Your JavaScript code for creating the chart will go here
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ labels|safe }},
+                datasets: [{
+                    label: 'ET0 VARIATIONS WITH TIME',
+                    data: {{ data|safe }},
+                    backgroundColor: '#004d7f',
+                    borderColor: '#004d7f',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('myChart2').getContext('2d');
+        var myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: {{ labels2|safe }},
+                datasets: [{
+                    label: 'ETC VARIATION WITH TIME',
+                    data: {{ data2|safe }},
+                    fill: false,
+                    borderColor: '#004d7f',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

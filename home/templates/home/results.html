@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results</title>
+  <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'home/results.css' %}">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="{% url 'index' %}">IrrigatePro</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'index' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'historic_data' %}">historic datas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'graphs' %}">Graphs</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+    <div  style="display: flex;flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
+      <div class="container">
+        <h4 class="caption">irrigation parameters</h4>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Crop evapotranspiration (ETc) in mm/day</th> 
+                <th>Reference evapotranspiration (ET0) in mm/day</th>
+                <th>Net irrigation requirements (IRn) in mm/day</th>
+                <th>Total water requirements (IR) in mm/day</th>
+                <th>Total water dosage (Dw) in mm</th>
+                <th>Irrigation Duration (ID) in seconds</th>
+                <th>Watering Frequency</th>
+                <th>date</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Example data -->
+                <tr>
+                  <td> {{ result_data.ETc }}</td>
+                  <td>{{result_data.ET0}}</td>
+                  <td> {{result_data.IRn}}</td>
+                  <td>{{result_data.IR}}</td>
+                  <td> {{result_data.Dw}}</td>
+                  <td>{{result_data.IDG}}</td>
+                  <td> {{result_data.Wf}} times a day</td>
+                  <td>{{result_data.Date}}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="{% static 'home/main.js' %}"></script>
+</body>
+</html>
