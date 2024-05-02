@@ -39,6 +39,7 @@
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
+                <th>Soil moisture value in %</th>
                 <th>Crop evapotranspiration (ETc) in mm/day</th> 
                 <th>Reference evapotranspiration (ET0) in mm/day</th>
                 <th>Net irrigation requirements (IRn) in mm/day</th>
@@ -52,6 +53,7 @@
             <tbody id="tableBody">
               <!-- Example data -->
                 <tr>
+                  <td> {{ result_data.SoilMoistureValue}}</td>
                   <td> {{ result_data.ETc }}</td>
                   <td>{{result_data.ET0}}</td>
                   <td> {{result_data.IRn}}</td>
