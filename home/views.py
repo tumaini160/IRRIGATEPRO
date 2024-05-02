@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import SensorData, Results
+from .models import Results
 import json
 from django.utils import timezone
 
@@ -100,6 +100,7 @@ def results(request):
                     ID = (2.78 * Dw * int(field_area))/Q
                     
                     irr_data = Results(
+                        SoilMoistureValue = Sensor_data,
                         ET0 = reference_ET0,
                         ETc = ETc,
                         IRn = IRn,
@@ -148,6 +149,7 @@ def results(request):
                         ID = (2.78 * Dw * int(field_area))/Q
 
                         irr_data = Results(
+                            SoilMoistureValue = Sensor_data,
                             ET0 = reference_ET0,
                             ETc = ETc,
                             IRn = IRn,
@@ -195,6 +197,7 @@ def results(request):
                         Dw = (H*(122.5)*f)/Ie
                         ID = (2.78 * Dw * int(field_area))/Q
                         irr_data = Results(
+                            SoilMoistureValue = Sensor_data,
                             ET0 = reference_ET0,
                             ETc = ETc,
                             IRn = IRn,
@@ -247,9 +250,8 @@ def historic_data(request):
             "sunset": daily["values"]["sunsetTime"]
             }
              for daily in weather]
-        soil_moisture_data = SensorData.objects.all()
         results_data = Results.objects.all()
-        return render(request, 'home/data.html', {'weather_forecast': weather_forecast, 'soil_moisture_data': soil_moisture_data, 'result_data':results_data})
+        return render(request, 'home/data.html', {'weather_forecast': weather_forecast, 'result_data':results_data})
     else:
         return render(request, 'home/error.html')
     

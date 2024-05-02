@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import dj_database_url
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -75,22 +75,12 @@ WSGI_APPLICATION = 'irrigationmanagementsystem.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'IRRIGATEPRO',
-        'USER': 'postgres',
-        'PASSWORD': '2402',
-        'HOST': 'localhost',  # or your database host
-        'PORT': '5432',       # or your database port
-        # 'OPTIONS': {'sslmode': 'require','client_encoding': 'UTF8'},
-        # 'ATOMIC_REQUESTS': True,
-    }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
+     'default': dj_database_url.parse("postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a.oregon-postgres.render.com/irrigatepro")
 }
 
+
+
+# postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a.oregon-postgres.render.com/irrigatepro
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
