@@ -1,0 +1,128 @@
+  :root{
+    --background:#ebecf0;
+    --table-background:#ffffff;
+    --primary:#101824;
+    --gray:#a0a7b1;
+    --odd-row:#f6f9ff;
+    --gray-background:#edeef1;
+    --gray-mid:#f1f2f6;
+    --primaryColor: #004d7f;
+    --secondaryColor:#3b7d02;
+  }
+  body{
+    font-family: 'Roboto';
+    padding:16px
+  }
+  
+  .table-responsive table{
+    max-width: fit-content;
+    border-collapse: collapse;
+  }
+  .caption{
+    font-size: .8rem;
+    font-weight: 700;
+    margin: 8px 0px;
+    text-transform: uppercase;
+    margin: 16px;
+    text-align: center;
+    color: var(--secondaryColor);
+  }
+  .topHeader{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin:20px;
+  }
+  .topHeader h5{
+    font-size: .8rem;
+    font-weight: 700;
+    margin: 8px 0px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  .table-responsive th{
+    padding: 20px 16px;
+    font-size: 0.7rem;
+    color:var(--gray);
+    text-transform: uppercase;
+  }
+  .table-responsive thead{
+    border-top: 2px solid var(--gray-background);
+  }
+  .table-responsive td{
+    padding: 8px 16px;
+    vertical-align: middle;
+    font-family: 'Roboto';
+    font-size: .65rem;
+    text-transform: uppercase;
+  }
+  .table-responsive tbody tr{
+    cursor: pointer;
+  }
+  .table-responsive tbody tr:hover{
+    background-color:#e2ecff;
+  }
+  .navbar{
+    transition: all 0.4s;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  .navbar-nav .nav-link {
+    color: #004d7f !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important; 
+    padding: 0.5rem 1rem;
+    font-size: 18px;
+  }
+  
+  .navbar-nav .nav-link:hover {
+    color: black !important;
+  }
+  .navbar-brand {
+    color: #004d7f !important;
+    font-weight: bold !important;
+    text-transform: uppercase !important;
+  }
+  
+  .navbar-brand:hover {
+    color: black !important;
+  }
+
+  #myChart {
+    width: 300px;
+    height: 100px;
+}
+
+  /* .weather-card {
+    /* background-color: #f8f9fa;
+    border-radius: 10px; */
+    /* padding: 20px;
+  }
+  .weather-card h4{
+    color: #3b7d02 !important;
+    text-transform: uppercase;
+  }
+  .text-center p{
+    color: #eae5e5 !important;
+    font-size: small;
+    text-transform: uppercase;
+  } */ 
+  
