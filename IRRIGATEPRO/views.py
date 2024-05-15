@@ -216,18 +216,27 @@ def results(request):
    
 @csrf_exempt
 def receive_moisture_data(request):
-    if request.method == 'GET':
-        soil_moisture = request.POST.get('soil_moisture', None)
-        if soil_moisture is not None:
-        # Do something with the received soil moisture data
-            print("Received soil moisture:", soil_moisture)
-            return HttpResponse("Data received successfully")
-        # data = json.loads(request.body)
-        # moisture_percentage = data.get('moisture_percentage')
-        # if moisture_percentage is not None:
-        #     SensorData.objects.create(SoilMoistureValue = moisture_percentage)
-        #     return JsonResponse({'message': 'Data received successfully'}, status=200)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    if request.method == "GET":
+        return HttpResponse("<h1>Here will be your results</h1>")
+    elif request.method == "POST":
+        print(request.POST)  # Handle the data as needed
+        return HttpResponse("<h1>Here are your results</h1>")
+    else:
+        return HttpResponse("<h1>Invalid request</h1>")
+        
+
+    # if request.method == 'GET':
+    #     soil_moisture = request.POST.get('soil_moisture', None)
+    #     if soil_moisture is not None:
+    #     # Do something with the received soil moisture data
+    #         print("Received soil moisture:", soil_moisture)
+    #         return HttpResponse("Data received successfully")
+    #     # data = json.loads(request.body)
+    #     # moisture_percentage = data.get('moisture_percentage')
+    #     # if moisture_percentage is not None:
+    #     #     SensorData.objects.create(SoilMoistureValue = moisture_percentage)
+    #     #     return JsonResponse({'message': 'Data received successfully'}, status=200)
+    # return JsonResponse({'error': 'Invalid request'}, status=400)
         
 def historic_data(request):
     api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"  # Replace with your Tomorrow.io API key
@@ -270,4 +279,4 @@ def graphs(request): # Fetch data from the SalesData model
     labels2 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
     data2 = [float(entry.ETc) for entry in results_data]
     
-    return render(request, 'home/charts.html', {'labels': labels, 'data': data, 'labels2': labels, 'data2': data})
+    return render(request, 'home/charts.html', {'labels': labels, 'data': data, 'labels2': labels2, 'data2': data2})

@@ -79,8 +79,6 @@ DATABASES = {
      'default': dj_database_url.parse("postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a/irrigatepro")
 }
 
-
-
 # postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a.oregon-postgres.render.com/irrigatepro
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
