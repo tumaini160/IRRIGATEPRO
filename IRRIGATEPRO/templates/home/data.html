@@ -25,6 +25,14 @@
         margin: 10px;
         overflow-x: auto;
     }
+    .searchbox{
+      margin-top:70px;
+      margin-bottom: 50px;
+    }
+    .submit{
+      background-color: #004d7f !important;
+      text-transform: uppercase;
+    }
 
     @media (max-width: 768px) {
         .tablecont{
@@ -56,13 +64,13 @@
         </div>
       </nav>
 
-      <div class="container">
+      <div class="container searchbox">
         <h4 class="caption">Get Weather Updates: Type Your City and Click Search</h4>
         <form action="{% url 'weather_data' %}" method="POST" >
           {% csrf_token %}
           <div class="input-group mb-3">
             <input type="text" class="form-control" placeholder="City name..." aria-label="Search" id="city" name="city" required>
-            <button class="btn btn-primary" type="button">Search</button>
+            <button class="btn btn-primary submit" type="submit">Search</button>
           </div>
         </form>
       </div>
