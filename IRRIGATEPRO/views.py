@@ -216,13 +216,17 @@ def results(request):
    
 @csrf_exempt
 def receive_moisture_data(request):
-    if request.method == "GET":
-        return HttpResponse("<h1>Here will be your results</h1>")
-    elif request.method == "POST":
-        print(request.POST)  # Handle the data as needed
-        return HttpResponse("<h1>Here are your results</h1>")
+    if request.method == 'POST':
+        print("POST")
     else:
         return HttpResponse("<h1>Invalid request</h1>")
+    # if request.method == "GET":
+    #     return HttpResponse("<h1>Here will be your results</h1>")
+    # elif request.method == "POST":
+    #     print(request.POST)  # Handle the data as needed
+    #     return HttpResponse("<h1>Here are your results</h1>")
+    # else:
+    #     return HttpResponse("<h1>Invalid request</h1>")
         
 
     # if request.method == 'GET':
