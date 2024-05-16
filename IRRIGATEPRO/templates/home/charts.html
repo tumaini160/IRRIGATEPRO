@@ -96,11 +96,11 @@
         });
         var ctx3 = document.getElementById('myChart3').getContext('2d');
         var myChart3 = new Chart(ctx3, {
-            type: 'pie',
+            type: 'line',
             data: {
                 labels: {{ labels3|safe }},
                 datasets: [{
-                    label: 'ETC VARIATION WITH TIME',
+                    label: 'SOIL MOISTURE PERCENTAGE VARIATION WITH TIME',
                     data: {{ data3|safe }},
                     fill: false,
                     borderColor: '#004d7f',
