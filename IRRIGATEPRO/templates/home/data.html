@@ -56,50 +56,27 @@
         </div>
       </nav>
 
-      {% comment %} <div  style="display: flex;flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin-top:20px">
-        <div class="container">
-          <h4 class="caption">Daily weather forecasting</h4>
-          <div class="table-responsive">
-            <table class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Time</th> 
-                  <th>Temperature (&#x2103;)</th> 
-                  <th>Humidity</th>
-                  <th>Wind Speed</th>
-                  <th>Precipitation probability</th>
-                  <th>Rain intensity</th>
-                  <th>Uvindex</th>
-                  <th>Sunrise</th>
-                  <th>Sunset</th>
-                </tr>
-              </thead>
-              <tbody id="tableBody">
-                <!-- Example data -->
-                {% for forecast in weather_forecast %}
-                <tr>
-                  <td> {{forecast.time}}</td>
-                  <td>{{forecast.temperature}}</td>
-                  <td> {{forecast.humidity}}</td>
-                  <td>{{forecast.wind_speed}}</td>
-                  <td>{{forecast.prep_prob}}</td>
-                  <td>{{forecast.rain_intensity}}</td>
-                  <td>{{forecast.uvIndex}}</td>
-                  <td>{{forecast.sunrise}}</td>
-                  <td>{{forecast.sunset}}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div> {% endcomment %}
+      <div class="container">
+        <h4 class="caption">Get Weather Updates: Type Your City and Click Search</h4>
+        <form action="{% url 'weather_data' %}" method="POST" >
+          {% csrf_token %}
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="City name..." aria-label="Search" id="city" name="city" required>
+            <button class="btn btn-primary" type="button">Search</button>
+          </div>
+        </form>
+      </div>
+
+      
           <div class="container">
             <h4 class="caption">irrigation parameters</h4>
             <div class="table-responsive">
               <table class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th>Crop evapotranspiration (ETc) in mm/day</th> 
-                      <th>Reference evapotranspiration (ET0) in mm/day</th>
+                      <th>Soil moisture values (%)</th>
+                      <th>Reference evapotranspiration (ET0) in mm/day</th> 
+                      <th>Crop evapotranspiration (ETc) in mm/day</th>
                       <th>Net irrigation requirements (IRn) in mm/day</th>
                       <th>Total water requirements (IR) in mm/day</th>
                       <th>Total water dosage (Dw) in mm</th>
@@ -110,7 +87,7 @@
                   </thead>
                   <tbody id="tableBody">
                       {% for data in result_data %}
-                      <tr>\
+                      <tr>
                         <td>{{data.SoilMoistureValue}}</td>
                         <td> {{data.ET0}}</td>
                         <td>{{data.ETc}}</td>
@@ -128,26 +105,6 @@
           </div> 
           
           </div>
-          
-            {% comment %} <div class="table-responsive sensorData">
-              <table class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>Soil moisture</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-                <tbody id="tableBody">
-                  <!-- Example data -->
-                 {% for data in soil_moisture_data %}
-                  <tr>
-                    <td> {{data.SoilMoistureValue}}</td>
-                    <td>{{data.Date}}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div> {% endcomment %}
         </div>
   
 

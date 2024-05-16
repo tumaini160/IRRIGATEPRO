@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Results</title>
+  <title>Historic Datas - Weather Forecasting</title>
   <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -24,48 +24,46 @@
           <a class="nav-link" href="{% url 'index' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'historic_data' %}">historic datas</a>
-        </li>
-        <li class="nav-item">
           <a class="nav-link" href="{% url 'graphs' %}">Graphs</a>
         </li>
       </ul>
     </div>
   </nav>
-    <div  style="display: flex;flex-direction: column; justify-content: center; align-items: center; height: 100vh;">
-      <div class="container">
-        <h4 class="caption">irrigation parameters</h4>
-        <div class="table-responsive">
-          <table class="table table-bordered table-striped">
-            <thead>
-              <tr>
-                <th>Soil moisture values (%)</th>
-                <th>Reference evapotranspiration (ET0) in mm/day</th> 
-                <th>Crop evapotranspiration (ETc) in mm/day</th>
-                <th>Net irrigation requirements (IRn) in mm/day</th>
-                <th>Total water requirements (IR) in mm/day</th>
-                <th>Total water dosage (Dw) in mm</th>
-                <th>Irrigation Duration (ID) in seconds</th>
-                <th>Watering Frequency</th>
-                <th>date</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <!-- Example data -->
-                <tr>
-                  <td> {{ result_data.SoilMoistureValue}}</td>
-                  <td> {{ result_data.ET0 }}</td>
-                  <td>{{result_data.ETc}}</td>
-                  <td> {{result_data.IRn}}</td>
-                  <td>{{result_data.IR}}</td>
-                  <td> {{result_data.Dw}}</td>
-                  <td>{{result_data.IDG}}</td>
-                  <td> {{result_data.Wf}} times a day</td>
-                  <td>{{result_data.Date}}</td>
-                </tr>
-            </tbody>
-          </table>
-        </div>
+  <div  style="display: flex;flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin-top:20px">
+    <div class="container">
+      <h4 class="caption">Daily weather forecasting</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>Time</th> 
+              <th>Temperature (&#x2103;)</th> 
+              <th>Humidity</th>
+              <th>Wind Speed</th>
+              <th>Precipitation probability</th>
+              <th>Rain intensity</th>
+              <th>Uvindex</th>
+              <th>Sunrise</th>
+              <th>Sunset</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Example data -->
+            {% for forecast in weather_forecast %}
+            <tr>
+              <td> {{forecast.time}}</td>
+              <td>{{forecast.temperature}}</td>
+              <td> {{forecast.humidity}}</td>
+              <td>{{forecast.wind_speed}}</td>
+              <td>{{forecast.prep_prob}}</td>
+              <td>{{forecast.rain_intensity}}</td>
+              <td>{{forecast.uvIndex}}</td>
+              <td>{{forecast.sunrise}}</td>
+              <td>{{forecast.sunset}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

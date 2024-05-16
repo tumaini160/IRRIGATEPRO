@@ -249,28 +249,31 @@ def receive_moisture_data(request):
     #     #     SensorData.objects.create(SoilMoistureValue = moisture_percentage)
     #     #     return JsonResponse({'message': 'Data received successfully'}, status=200)
     # return JsonResponse({'error': 'Invalid request'}, status=400)
-        
+def weather_forecasting(request): 
+    if request.method == 'POST':
+        city = request.POST['city']
+        api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"  # Replace with your Tomorrow.io API key
+        url = f"https://api.tomorrow.io/v4/weather/forecast?location={city}&timesteps=1d&apikey={api_key}"
+        headers = {"accept": "application/json"}
+        response = requests.get(url, headers=headers)
+        if response.status_code == 200:
+            data = response.json()
+            weather= data['timelines']['daily']
+            weather_forecast = [{
+                "time": daily["time"],
+                "temperature": daily["values"]["temperatureAvg"],
+                "humidity": daily["values"]["humidityAvg"],
+                "wind_speed": daily["values"]["windSpeedAvg"],
+                "prep_prob": daily["values"]["precipitationProbabilityAvg"],
+                "rain_intensity": daily["values"]["rainIntensityAvg"],
+                "uvIndex": daily["values"]["uvIndexAvg"],
+                "sunrise": daily["values"]["sunriseTime"],
+                "sunset": daily["values"]["sunsetTime"]
+                }
+                for daily in weather]
+            return render(request, 'home/data.html', {'result_data':weather_forecast})
 def historic_data(request):
-    # api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"  # Replace with your Tomorrow.io API key
-    # city = "Dar es salaam"
-    # url = f"https://api.tomorrow.io/v4/weather/forecast?location={city}&timesteps=1d&apikey={api_key}"
-    # headers = {"accept": "application/json"}
-    # response = requests.get(url, headers=headers)
-    # if response.status_code == 200:
-    #     data = response.json()
-    #     weather= data['timelines']['daily']
-    #     weather_forecast = [{
-    #         "time": daily["time"],
-    #         "temperature": daily["values"]["temperatureAvg"],
-    #         "humidity": daily["values"]["humidityAvg"],
-    #         "wind_speed": daily["values"]["windSpeedAvg"],
-    #         "prep_prob": daily["values"]["precipitationProbabilityAvg"],
-    #         "rain_intensity": daily["values"]["rainIntensityAvg"],
-    #         "uvIndex": daily["values"]["uvIndexAvg"],
-    #         "sunrise": daily["values"]["sunriseTime"],
-    #         "sunset": daily["values"]["sunsetTime"]
-    #         }
-    #          for daily in weather]
+    
     results_data = Results.objects.all()
     return render(request, 'home/data.html', {'result_data':results_data})
     # else:
