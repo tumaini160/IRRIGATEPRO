@@ -291,4 +291,7 @@ def graphs(request): # Fetch data from the SalesData model
     labels2 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
     data2 = [float(entry.ETc) for entry in results_data]
     
-    return render(request, 'home/charts.html', {'labels': labels, 'data': data, 'labels2': labels2, 'data2': data2})
+    labels3 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
+    data3 = [float(entry.SoilMoistureValue) for entry in results_data]
+    
+    return render(request, 'home/charts.html', {'labels': labels, 'data': data, 'labels2': labels2, 'data2': data2, 'labels3': labels3, 'data3': data3})
