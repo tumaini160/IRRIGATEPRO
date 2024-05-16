@@ -16,7 +16,7 @@ def calculate_et0(temp, humidity, wind_speed, solar_radiation):
     gamma = 0.066  # Psychrometric constant (kPa/°C)
 
     # Calculate vapor pressure deficit (delta_e)
-    es = 0.6108 * (10 ** ((7.5 * temp) / (237.3 + temp)))  # Saturation vapor pressure (kPa)
+    es = 0.611 * (2.7183 ** ((17.3 * temp) / (237.3 + temp)))  # Saturation vapor pressure (kPa)
     ea = (humidity / 100) * es  # Actual vapor pressure (kPa)
     delta_e = es - ea
 
@@ -27,7 +27,7 @@ def calculate_et0(temp, humidity, wind_speed, solar_radiation):
 
 
     # Calculate reference evapotranspiration (ET0)
-    ET0   = (0.408 * delta * (solar_radiation) + gamma * 900 * wind_speed * delta_e) / (delta +    gamma * (1 + 0.34 * wind_speed))
+    ET0   = (0.408 * delta * (solar_radiation) + gamma * (900/(temp + 273)) * wind_speed * delta_e) / (delta +    gamma * (1 + 0.34 * wind_speed))
 
     return ET0  
 
@@ -115,7 +115,7 @@ def results(request):
 
                     return redirect('fetch_result_data')
                 else:
-                    return render(request, 'home/error.html')
+                    return render(request, 'home/noirrigation.html')
             else:
                 if year_type == 'leap year':
                     AHPD= (12.5 + 11.8)/2
@@ -165,7 +165,7 @@ def results(request):
                         return redirect('fetch_result_data')
                     
                     else:
-                        return render(request, 'home/error.html')
+                        return render(request, 'home/noirrigation.html')
                 elif year_type == "normal year":
                     AHPD= (12.5 + 11.8)/2
                     TDHIY = AHPD*365
@@ -212,7 +212,7 @@ def results(request):
 
                         return redirect('fetch_result_data')
                     else:
-                        return render(request, 'home/error.html')
+                        return render(request, 'home/noirrigation.html')
    
 @csrf_exempt
 def receive_moisture_data(request):
