@@ -223,7 +223,7 @@ def get_latest_soil_moisture():
    
 def receive_moisture_data(request):
     moisture_data = get_latest_soil_moisture()
-    return JsonResponse(moisture_data, status=200)
+    return render(request, 'latest_soil_moisture.html', {'moisture_data': moisture_data})
 
 def weather_forecasting(request): 
     if request.method == 'POST':
