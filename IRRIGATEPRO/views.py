@@ -215,9 +215,22 @@ def results(request):
                         return render(request, 'home/noirrigation.html')
    
 def receive_moisture_data(request):
-    ref = db.reference('/soilMoisture')
-    data = ref.get()
-    return JsonResponse(data)
+    try:
+        # Reference to the 'soil_moisture' node in Firebase
+        ref = db.reference('soil_moisture')
+
+        # Get the latest sensor data from Firebase
+        latest_data = ref.get()
+
+        if latest_data is None:
+            # If no data is available, return an empty response
+            return JsonResponse({}, status=404)
+        else:
+            # Return the latest sensor data as JSON response
+            return JsonResponse(latest_data, status=200)
+    except Exception as e:
+        # Handle any unexpected errors and return an error response
+        return JsonResponse({'error': str(e)}, status=500)
 
 def weather_forecasting(request): 
     if request.method == 'POST':
