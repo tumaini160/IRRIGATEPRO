@@ -217,17 +217,9 @@ def results(request):
 @csrf_exempt
 def receive_moisture_data(request):
     if request.method == 'POST':
-        try:
-            data = json.loads(request.body)
-            moisture_level = data.get('moisture_level')
-            # Process moisture_level data here
-            print("Received moisture level:", moisture_level)
-            return HttpResponse("Data received successfully")
-        except json.JSONDecodeError as e:
-            print("Error decoding JSON:", str(e))
-            return HttpResponse("<h1>Invalid JSON data</h1>")
+        print("success")
     else:
-        return HttpResponse("<h1>Invalid request</h1>")
+        print("error")
     # if request.method == "GET":
     #     return HttpResponse("<h1>Here will be your results</h1>")
     # elif request.method == "POST":
