@@ -217,7 +217,7 @@ def results(request):
 def receive_moisture_data(request):
     try:
         # Reference to the 'soil_moisture' node in Firebase
-        ref = db.reference('soil_moisture')
+        ref = db.reference('/soilMoisture')
 
         # Get the latest sensor data from Firebase
         latest_data = ref.get()
