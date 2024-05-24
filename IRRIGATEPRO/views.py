@@ -213,24 +213,17 @@ def results(request):
                         return redirect('fetch_result_data')
                     else:
                         return render(request, 'home/noirrigation.html')
+def get_latest_soil_moisture():
+    ref = db.reference('/soilMoisture')
+    snapshot = ref.order_by_key().limit_to_last(1).get()
+
+    # Extract the latest soil moisture data from the snapshot
+    for key, value in snapshot.items():
+        return value  # Assuming the data is a single value
    
 def receive_moisture_data(request):
-    try:
-        # Reference to the 'soil_moisture' node in Firebase
-        ref = db.reference('/soilMoisture')
-
-        # Get the latest sensor data from Firebase
-        latest_data = ref.get()
-
-        if latest_data is None:
-            # If no data is available, return an empty response
-            return JsonResponse({}, status=404)
-        else:
-            # Return the latest sensor data as JSON response
-            return JsonResponse(latest_data, status=200)
-    except Exception as e:
-        # Handle any unexpected errors and return an error response
-        return JsonResponse({'error': str(e)}, status=500)
+    moisture_data = get_latest_soil_moisture()
+    return JsonResponse(moisture_data, status=200)
 
 def weather_forecasting(request): 
     if request.method == 'POST':
