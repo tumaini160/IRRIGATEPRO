@@ -75,23 +75,11 @@ WSGI_APPLICATION = 'irrigationmanagementsystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#      'default': dj_database_url.parse("postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a/irrigatepro")
-# }
-
 DATABASES = {
-  'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'irrigatepro',
-    'USER': 'postgres',
-    'PASSWORD': '2024d@tingApp',
-    'HOST': '157.245.109.105',
-    'PORT': '5432',
-    'OPTIONS': {'sslmode': 'require','client_encoding': 'UTF8'},
-    'ATOMIC_REQUESTS': True,
-    'CHARSET': 'UTF-8',
-  }
+     'default': dj_database_url.parse("postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a/irrigatepro")
 }
+
+
 # postgres://tumaini:b7db0ajj7R3tJkRQFq8dDcDF09ZBllVc@dpg-copeqltjm4es73a30sog-a.oregon-postgres.render.com/irrigatepro
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

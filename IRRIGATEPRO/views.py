@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Results
 import json
-from django.utils import timezone
+from firebase_admin import db
 
 
 # function to calculate ET0  using Penman-Monteith equation
@@ -214,33 +214,11 @@ def results(request):
                     else:
                         return render(request, 'home/noirrigation.html')
    
-@csrf_exempt
 def receive_moisture_data(request):
-    if request.method == 'POST':
-        print("success")
-    else:
-        print("error")
-    # if request.method == "GET":
-    #     return HttpResponse("<h1>Here will be your results</h1>")
-    # elif request.method == "POST":
-    #     print(request.POST)  # Handle the data as needed
-    #     return HttpResponse("<h1>Here are your results</h1>")
-    # else:
-    #     return HttpResponse("<h1>Invalid request</h1>")
-        
+    ref = db.reference('/soilMoisture')
+    data = ref.get()
+    return JsonResponse(data)
 
-    # if request.method == 'GET':
-    #     soil_moisture = request.POST.get('soil_moisture', None)
-    #     if soil_moisture is not None:
-    #     # Do something with the received soil moisture data
-    #         print("Received soil moisture:", soil_moisture)
-    #         return HttpResponse("Data received successfully")
-    #     # data = json.loads(request.body)
-    #     # moisture_percentage = data.get('moisture_percentage')
-    #     # if moisture_percentage is not None:
-    #     #     SensorData.objects.create(SoilMoistureValue = moisture_percentage)
-    #     #     return JsonResponse({'message': 'Data received successfully'}, status=200)
-    # return JsonResponse({'error': 'Invalid request'}, status=400)
 def weather_forecasting(request): 
     if request.method == 'POST':
         city = request.POST['city']
