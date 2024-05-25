@@ -100,6 +100,7 @@ def results(request):
                     if Sensor_data <= Smin:
                         IRn = ETc - EP - GW - SW
                         IR = IRn/Ie
+                        print(IR)
                     else:
                         IR = 0
                 else:
