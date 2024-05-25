@@ -278,9 +278,17 @@ def graphs(request):
     # Extract timestamp and moisture values
     timestamps = []
     moisture_values = []
-    for key, value in snapshot.items():
-        timestamps.append(value['timestamp'])
-        moisture_values.append(value['moisture'])
+    if isinstance(snapshot, dict):
+            for key, value in snapshot.items():
+                # Ensure value is a dictionary and contains expected keys
+                if isinstance(value, dict) and 'timestamp' in value and 'moisture' in value:
+                    timestamps.append(value['timestamp'])
+                    moisture_values.append(value['moisture'])
+                else:
+                    print(f"Unexpected data format for key {key}: {value}")
+    # for key, value in snapshot.items():
+    #     timestamps.append(value['timestamp'])
+    #     moisture_values.append(value['moisture'])
     
     results_data1 = Table1.objects.all()
     results_data2 = Table2.objects.all()
