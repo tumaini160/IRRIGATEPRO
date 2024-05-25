@@ -59,8 +59,8 @@ def results(request):
         rain_prob = data['timelines']['daily'][0]['values']['precipitationProbabilityAvg']
         Tmean = data['timelines']['daily'][0]['values']['temperatureAvg']
         rain_intensity = data['timelines']['daily'][0]['values']['rainIntensityAvg']
-        Threshold_rain_prob = 50
-        Sensor_data = get_latest_soil_moisture()
+        Threshold_rain_prob =0.5
+        Sensor_data =  get_latest_soil_moisture()
         Smin = 61.25
         GW = 0.00112486 #Groundwater Contribution, this users will input using ui (mm/day)
         SW = 0.002812148571 #Soil Water Depleted, this users will input using ui (mm/day)
@@ -97,9 +97,10 @@ def results(request):
                     EP= prep * ( 125 - (0.2*prep) )/125
 
                 if rain_prob < Threshold_rain_prob:  
-                    if Sensor_data <= Smin:
-                        IRn = 150.1 - EP - GW - SW
+                    if Sensor_data >= Smin:
+                        IRn = ETc - EP - GW - SW
                         IR = IRn/Ie
+                        print(IR)
                     else:
                         IR = 0
                 else:
@@ -148,7 +149,7 @@ def results(request):
                         EP= prep * ( 125 - (0.2 * prep) )/125
 
                     if rain_prob < Threshold_rain_prob:  
-                        if Sensor_data <= Smin:
+                        if Sensor_data >= Smin:
                             IRn = ETc - EP - GW - SW
                             IR = IRn/Ie
                         else:
@@ -200,7 +201,7 @@ def results(request):
                         EP= prep * ( 125 - (0.2*prep) )/125
 
                     if rain_prob < Threshold_rain_prob:  
-                        if Sensor_data <= Smin:
+                        if Sensor_data >= Smin:
                             IRn = ETc - EP - GW - SW
                             IR = IRn/Ie
                         else:
