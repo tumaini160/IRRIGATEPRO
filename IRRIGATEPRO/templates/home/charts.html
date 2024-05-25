@@ -32,15 +32,15 @@
         </div>
       </nav>
 
-      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; margin-top:160px, padding:100px">
-        <div style="padding:50px, margin-top:40px" class="container">
-            <canvas id="myChart"></canvas>
+      <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; margin:160px, padding:100px">
+        <div class="container">
+            <canvas id="myChart" width="800" height="400"></canvas>
         </div>
-        <div style="padding:50px, margin-top:40px" class="container">
-            <canvas id="myChart2"></canvas>
+        <div class="container">
+            <canvas id="myChart2" width="800" height="400"></canvas>
         </div>
-        <div style="padding:50px, margin-top:40px" class="container">
-            <canvas id="myChart3"></canvas>
+        <div class="container">
+            <canvas id="myChart3" width="800" height="400"></canvas>
         </div>
       </div>
 
@@ -53,11 +53,11 @@
         // Your JavaScript code for creating the chart will go here
         var ctx = document.getElementById('myChart').getContext('2d');
         var myChart = new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: {{ labels|safe }},
                 datasets: [{
-                    label: 'ET0 VARIATIONS WITH TIME',
+                    label: 'ET0 VARIATION DURING TIME STAGE WITH PENMAN-MONTEITH METHOD',
                     data: {{ data|safe }},
                     backgroundColor: '#004d7f',
                     borderColor: '#004d7f',
@@ -79,7 +79,7 @@
             data: {
                 labels: {{ labels2|safe }},
                 datasets: [{
-                    label: 'ETC VARIATION WITH TIME',
+                    label: 'ET0 VARIATION DURING TIME STAGE WITH BLANEY-CRIDDLE METHOD',
                     data: {{ data2|safe }},
                     fill: false,
                     borderColor: '#004d7f',
@@ -94,27 +94,39 @@
                 }
             }
         });
-        var ctx3 = document.getElementById('myChart3').getContext('2d');
-        var myChart3 = new Chart(ctx3, {
-            type: 'line',
-            data: {
-                labels: {{ labels3|safe }},
-                datasets: [{
-                    label: 'SOIL MOISTURE PERCENTAGE VARIATION WITH TIME',
-                    data: {{ data3|safe }},
-                    fill: false,
-                    borderColor: '#004d7f',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+        
+         // Retrieve data passed from Django view
+         var timestamps = {{ timestamps|safe }};
+         var moistureValues = {{ moisture_values|safe }};
+ 
+         // Create chart
+         var ctx3 = document.getElementById('myChart3').getContext('2d');
+         var moistureChart = new Chart(ctx, {
+             type: 'line',
+             data: {
+                 labels: timestamps,
+                 datasets: [{
+                     label: 'SOIL MOISTURE PERCENTAGE VARIATION WITH TIME',
+                     data: moistureValues,
+                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                     borderColor: 'rgba(75, 192, 192, 1)',
+                     borderWidth: 1
+                 }]
+             },
+             options: {
+                 scales: {
+                     x: {
+                         type: 'time',
+                         time: {
+                             unit: 'hour'
+                         }
+                     },
+                     y: {
+                         beginAtZero: true
+                     }
+                 }
+             }
+         });
     </script>
 </body>
 </html>

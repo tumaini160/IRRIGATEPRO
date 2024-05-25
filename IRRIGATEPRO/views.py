@@ -259,9 +259,7 @@ def historic_data(request):
     
     results_data1 = Table1.objects.all()
     results_data2 = Table2.objects.all()
-    return render(request, 'home/data.html', {'result_data1':results_data1, 'result_data2':results_data2})
-    # else:
-    #     return render(request, 'home/error.html')
+    return render(request, 'home/data.html', {'result_data1':results_data1, 'result_data2':results_data2})    
     
 def fetch_result_data1(request):
     # Fetch the most recently posted data (latest first)
@@ -272,17 +270,42 @@ def fetch_result_data2(request):
     result_data = Table2.objects.order_by('-Date').first()
     return render(request, 'home/results.html', {'result_data': result_data})
     
-def graphs(request): # Fetch data from the SalesData model
-    results_data = Table1.objects.all()
+def graphs(request):
+     # Fetch soil moisture data from Firebase Realtime Database
+    ref = db.reference('/soilMoisture')
+    snapshot = ref.order_by_child('timestamp').get()
+
+    # Extract timestamp and moisture values
+    timestamps = []
+    moisture_values = []
+    for key, value in snapshot.items():
+        timestamps.append(value['timestamp'])
+        moisture_values.append(value['moisture'])
     
+    results_data1 = Table1.objects.all()
+    results_data2 = Table2.objects.all()
     # Extract labels and data from the queryset
-    labels = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
-    data = [float(entry.ET0) for entry in results_data]
+    labels = [entry.Date.strftime('%Y-%m-%d') for entry in results_data1]
+    data = [float(entry.ET0) for entry in results_data1]
+    labels2 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data2]
+    data2 = [float(entry.ETc) for entry in results_data2]
+    # Pass data to template
+    return render(request, 'home/charts.html', {
+        'timestamps': timestamps,
+        'moisture_values': moisture_values,
+        'labels': labels,
+        'data': data,
+        'labels2': labels2, 
+        'data2': data2,
+    })
     
-    labels2 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
-    data2 = [float(entry.ETc) for entry in results_data]
     
-    labels3 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
-    data3 = [float(entry.SoilMoistureValue) for entry in results_data]
     
-    return render(request, 'home/charts.html', {'labels': labels, 'data': data, 'labels2': labels2, 'data2': data2, 'labels3': labels3, 'data3': data3})
+    
+    # labels2 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
+    # data2 = [float(entry.ETc) for entry in results_data]
+    
+    # labels3 = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]
+    # data3 = [float(entry.SoilMoistureValue) for entry in results_data]
+    
+    # return render(request, '', {  'labels3': labels3, 'data3': data3})
