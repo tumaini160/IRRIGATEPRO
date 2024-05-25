@@ -98,9 +98,8 @@ def results(request):
 
                 if rain_prob < Threshold_rain_prob:  
                     if Sensor_data <= Smin:
-                        IRn = ETc - EP - GW - SW
+                        IRn = 150.1 - EP - GW - SW
                         IR = IRn/Ie
-                        print(IR)
                     else:
                         IR = 0
                 else:
