@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import requests
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Results
+from .models import Table1, Table2
 import json
 from firebase_admin import db
 
@@ -32,6 +32,13 @@ def calculate_et0(temp, humidity, wind_speed, solar_radiation):
     return ET0  
 
 
+def get_latest_soil_moisture():
+    ref = db.reference('/soilMoisture')
+    snapshot = ref.order_by_key().limit_to_last(1).get()
+
+    # Extract the latest soil moisture data from the snapshot
+    for key, value in snapshot.items():
+        return value  # Assuming the data is a single value
 
 def index(request):
     return render(request, 'home/index.html')
@@ -42,6 +49,7 @@ def results(request):
         year_type = request.POST['yr']
         field_area = request.POST['Ai']
         crop_coefficient = request.POST['KC']
+        cropType = request.POST['crop']
         
         api_key = '0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo'
         url = f'https://api.tomorrow.io/v4/weather/forecast?location={city}&apikey={api_key}' #url used to fetch weather data from api
@@ -52,7 +60,7 @@ def results(request):
         Tmean = data['timelines']['daily'][0]['values']['temperatureAvg']
         rain_intensity = data['timelines']['daily'][0]['values']['rainIntensityAvg']
         Threshold_rain_prob = 50
-        Sensor_data = 59.9
+        Sensor_data = get_latest_soil_moisture()
         Smin = 61.25
         GW = 0.00112486 #Groundwater Contribution, this users will input using ui (mm/day)
         SW = 0.002812148571 #Soil Water Depleted, this users will input using ui (mm/day)
@@ -60,6 +68,7 @@ def results(request):
         H = 15.24 #root depth(cm), this users will input using ui
         f = 50 #water availability in the soil, this users will input using ui
         Q = 40.5 #flow rate (mm3/s)
+        Dnet = (H*(122.50)*f)
 
  
         # Check if temperature, humidity, wind speed, and UV index are available
@@ -79,6 +88,7 @@ def results(request):
                 reference_ET0   = calculate_et0(temperature,humidity, wind_speed,   solar_rad) #call for function used to calculate ET0 using penman-monteith method
 
                 ETc = int(crop_coefficient) * reference_ET0 
+                Ifr = int(Dnet/ETc)
 
 
                 if prep > 250:
@@ -86,7 +96,7 @@ def results(request):
                 elif prep<=250:
                     EP= prep * ( 125 - (0.2*prep) )/125
 
-                if rain_prob < Threshold_rain_prob:  
+                if rain_prob > Threshold_rain_prob:  
                     if Sensor_data <= Smin:
                         IRn = ETc - EP - GW - SW
                         IR = IRn/Ie
@@ -99,7 +109,8 @@ def results(request):
                     Dw = (H*(122.50)*f)/Ie
                     ID = (2.78 * Dw * int(field_area))/Q
                     
-                    irr_data = Results(
+                    irr_data = Table1(
+                        CropType = cropType,
                         SoilMoistureValue = Sensor_data,
                         ET0 = reference_ET0,
                         ETc = ETc,
@@ -113,7 +124,7 @@ def results(request):
                     
                     irr_data.save()
 
-                    return redirect('fetch_result_data')
+                    return redirect('fetch_result_data1')
                 else:
                     return render(request, 'home/noirrigation.html')
             else:
@@ -126,6 +137,8 @@ def results(request):
                     ET0=PDTH * ((0.46 * Tmean)+8.13)
 
                     ETc = int(crop_coefficient) * ET0
+                    
+                    Ifr = int(Dnet/ETc)
 
                     prep= rain_intensity * 1 #precipitation in 1min of forecasting
 
@@ -148,7 +161,8 @@ def results(request):
                         Dw = (H*(122.50)*f)/Ie
                         ID = (2.78 * Dw * int(field_area))/Q
 
-                        irr_data = Results(
+                        irr_data = Table2(
+                            CropType = cropType,
                             SoilMoistureValue = Sensor_data,
                             ET0 = reference_ET0,
                             ETc = ETc,
@@ -156,13 +170,13 @@ def results(request):
                             IR = IR,
                             Dw = Dw,
                             IDG = ID,
-                            Wf = 1,
+                            Wf = Ifr,
                             city = city
                             ) 
                         
                         irr_data.save()
 
-                        return redirect('fetch_result_data')
+                        return redirect('fetch_result_data2')
                     
                     else:
                         return render(request, 'home/noirrigation.html')
@@ -175,6 +189,8 @@ def results(request):
                     ET0=PDTH*((0.46*Tmean)+8.13)
 
                     ETc = int(crop_coefficient) * ET0
+                    
+                    Ifr = int(Dnet/ETc)
 
                     prep= rain_intensity*1 #precipitation in 1min of forecasting
 
@@ -183,7 +199,7 @@ def results(request):
                     elif prep<=250:
                         EP= prep * ( 125 - (0.2*prep) )/125
 
-                    if rain_prob < Threshold_rain_prob:  
+                    if rain_prob > Threshold_rain_prob:  
                         if Sensor_data <= Smin:
                             IRn = ETc - EP - GW - SW
                             IR = IRn/Ie
@@ -196,7 +212,8 @@ def results(request):
                     if IR > 0: 
                         Dw = (H*(122.5)*f)/Ie
                         ID = (2.78 * Dw * int(field_area))/Q
-                        irr_data = Results(
+                        irr_data = Table2(
+                            CropType = cropType,
                             SoilMoistureValue = Sensor_data,
                             ET0 = reference_ET0,
                             ETc = ETc,
@@ -204,26 +221,16 @@ def results(request):
                             IR = IR,
                             Dw = Dw,
                             IDG = ID,
-                            Wf = 1,
+                            Wf = Ifr,
                             city = city
                             ) 
                         
                         irr_data.save()
 
-                        return redirect('fetch_result_data')
+                        return redirect('fetch_result_data2')
                     else:
                         return render(request, 'home/noirrigation.html')
-def get_latest_soil_moisture():
-    ref = db.reference('/soilMoisture')
-    snapshot = ref.order_by_key().limit_to_last(1).get()
-
-    # Extract the latest soil moisture data from the snapshot
-    for key, value in snapshot.items():
-        return value  # Assuming the data is a single value
    
-def receive_moisture_data(request):
-    moisture_data = get_latest_soil_moisture()
-    return render(request, 'home/latest_soil_moisture.html', {'moisture_data': moisture_data})
 
 def weather_forecasting(request): 
     if request.method == 'POST':
@@ -250,18 +257,23 @@ def weather_forecasting(request):
             return render(request, 'home/data.html', {'result_data':weather_forecast})
 def historic_data(request):
     
-    results_data = Results.objects.all()
-    return render(request, 'home/data.html', {'result_data':results_data})
+    results_data1 = Table1.objects.all()
+    results_data2 = Table2.objects.all()
+    return render(request, 'home/data.html', {'result_data1':results_data1, 'result_data2':results_data2})
     # else:
     #     return render(request, 'home/error.html')
     
-def fetch_result_data(request):
+def fetch_result_data1(request):
     # Fetch the most recently posted data (latest first)
-    result_data = Results.objects.order_by('-Date').first()
+    result_data = Table1.objects.order_by('-Date').first()
+    return render(request, 'home/results.html', {'result_data': result_data})
+def fetch_result_data2(request):
+    # Fetch the most recently posted data (latest first)
+    result_data = Table2.objects.order_by('-Date').first()
     return render(request, 'home/results.html', {'result_data': result_data})
     
 def graphs(request): # Fetch data from the SalesData model
-    results_data = Results.objects.all()
+    results_data = Table1.objects.all()
     
     # Extract labels and data from the queryset
     labels = [entry.Date.strftime('%Y-%m-%d') for entry in results_data]

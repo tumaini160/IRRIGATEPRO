@@ -39,6 +39,7 @@
           <table class="table table-bordered table-striped">
             <thead>
               <tr>
+                <th>Crop Type</th>
                 <th>Soil moisture values (%)</th>
                 <th>Reference evapotranspiration (ET0) in mm/day</th> 
                 <th>Crop evapotranspiration (ETc) in mm/day</th>
@@ -53,6 +54,7 @@
             <tbody id="tableBody">
               <!-- Example data -->
                 <tr>
+                  <td> {{ result_data.CropType}}</td>
                   <td> {{ result_data.SoilMoistureValue}}</td>
                   <td> {{ result_data.ET0 }}</td>
                   <td>{{result_data.ETc}}</td>
