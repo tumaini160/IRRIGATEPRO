@@ -87,7 +87,7 @@ def results(request):
 
                 reference_ET0   = calculate_et0(temperature,humidity, wind_speed,   solar_rad) #call for function used to calculate ET0 using penman-monteith method
 
-                ETc = int(crop_coefficient) * reference_ET0 
+                ETc = int(float(crop_coefficient)) * reference_ET0 
                 Ifr = int(Dnet/ETc)
 
 
@@ -136,7 +136,7 @@ def results(request):
 
                     ET0=PDTH * ((0.46 * Tmean)+8.13)
 
-                    ETc = int(crop_coefficient) * ET0
+                    ETc = int(float(crop_coefficient)) * ET0
                     
                     Ifr = int(Dnet/ETc)
 
@@ -188,7 +188,7 @@ def results(request):
 
                     ET0=PDTH*((0.46*Tmean)+8.13)
 
-                    ETc = int(crop_coefficient) * ET0
+                    ETc = int(float(crop_coefficient)) * ET0
                     
                     Ifr = int(Dnet/ETc)
 
