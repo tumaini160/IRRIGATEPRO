@@ -96,7 +96,7 @@ def results(request):
                 elif prep<=250:
                     EP= prep * ( 125 - (0.2*prep) )/125
 
-                if rain_prob > Threshold_rain_prob:  
+                if rain_prob < Threshold_rain_prob:  
                     if Sensor_data <= Smin:
                         IRn = ETc - EP - GW - SW
                         IR = IRn/Ie
@@ -147,7 +147,7 @@ def results(request):
                     elif prep<=250:
                         EP= prep * ( 125 - (0.2 * prep) )/125
 
-                    if rain_prob > Threshold_rain_prob:  
+                    if rain_prob < Threshold_rain_prob:  
                         if Sensor_data <= Smin:
                             IRn = ETc - EP - GW - SW
                             IR = IRn/Ie
@@ -199,7 +199,7 @@ def results(request):
                     elif prep<=250:
                         EP= prep * ( 125 - (0.2*prep) )/125
 
-                    if rain_prob > Threshold_rain_prob:  
+                    if rain_prob < Threshold_rain_prob:  
                         if Sensor_data <= Smin:
                             IRn = ETc - EP - GW - SW
                             IR = IRn/Ie
