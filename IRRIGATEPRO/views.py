@@ -42,7 +42,8 @@ def get_latest_soil_moisture():
         return value  # Assuming the data is a single value
 
 def index(request):
-    return render(request, 'home/index.html')
+    moisture_data = get_latest_soil_moisture()
+    return render(request, 'home/index.html', {'moisture_data': moisture_data})
     
 def results(request):
     if request.method == 'POST':
@@ -301,8 +302,8 @@ def graphs(request):
     data2 = [float(entry.ETc) for entry in results_data2]
     # Pass data to template
     return render(request, 'home/charts.html', {
-        'timestamps': timestamps,
-        'moisture_values': moisture_values,
+        'timestamps':  json.dumps(timestamps),
+        'moisture_values': json.dumps(moisture_values),
         'labels': labels,
         'data': data,
         'labels2': labels2, 

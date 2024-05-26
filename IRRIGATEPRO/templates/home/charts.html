@@ -98,8 +98,8 @@
         });
         
          // Retrieve data passed from Django view
-         var timestamps = {{ timestamps|safe }};
-         var moistureValues = {{ moisture_values|safe }};
+         var timestamps = JSON.parse('{{ timestamps|escapejs }}');
+         var moistureValues = JSON.parse('{{ moisture_values|escapejs }}');
  
          // Create chart
          var ctx3 = document.getElementById('myChart3').getContext('2d');
@@ -120,7 +120,7 @@
                      x: {
                          type: 'time',
                          time: {
-                             unit: 'hour'
+                             unit: 'minute'
                          }
                      },
                      y: {
