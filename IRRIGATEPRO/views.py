@@ -42,8 +42,7 @@ def get_latest_soil_moisture():
         return value.get('value')  # Extract just the 'value' field
 
 def index(request):
-    moisture_data = get_latest_soil_moisture()
-    return render(request, 'home/index.html', {'moisture_data': moisture_data})
+    return render(request, 'home/index.html')
     
 def results(request):
     if request.method == 'POST':
@@ -61,7 +60,7 @@ def results(request):
         rain_prob = data['timelines']['daily'][0]['values']['precipitationProbabilityAvg']
         Tmean = data['timelines']['daily'][0]['values']['temperatureAvg']
         rain_intensity = data['timelines']['daily'][0]['values']['rainIntensityAvg']
-        Threshold_rain_prob =0.5
+        Threshold_rain_prob =50
         Sensor_data =  get_latest_soil_moisture()
         Smin = 61.25
         GW = 0.00112486 #Groundwater Contribution, this users will input using ui (mm/day)
