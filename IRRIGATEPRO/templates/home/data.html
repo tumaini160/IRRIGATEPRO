@@ -22,7 +22,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
-      background-color: #f0f0f0;
+      {% comment %} background-color: #f0f0f0; {% endcomment %}
     }
     
     .search-container {
@@ -75,12 +75,23 @@
       margin-top:70px;
       margin-bottom: 50px;
     }
-    .submit{
-      background-color: #004d7f !important;
-      text-transform: uppercase;
+    .carousel-container {
+        width: 100%;
+        max-width: 900px; /* Adjust this to control the width of the carousel */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
-    #btn{
+    .carousel-inner {
+        width: 100%;
+    }
+    .btn{
+      outline: none;
+      background-color: #004d7f !important;
+      border: none;
       margin: 5px;
+      border-radius:1px;
     }
 
     @media (max-width: 768px) {
@@ -129,6 +140,7 @@
         <div id="tableCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-item active">
+                  <h4 class="caption">irrigation parameters</h4>
                   <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
@@ -166,6 +178,7 @@
                   </div> 
                 </div>
                 <div class="carousel-item">
+                  <h4 class="caption">irrigation parameters</h4>
                   <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
