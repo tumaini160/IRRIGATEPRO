@@ -66,25 +66,6 @@
   .navbar{
     transition: all 0.4s;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   .navbar-nav .nav-link {
     color: #004d7f !important;
     font-weight: 600 !important;
@@ -105,11 +86,6 @@
   .navbar-brand:hover {
     color: black !important;
   }
-
-  #myChart {
-    width: 300px;
-    height: 100px;
-}
 
   /* .weather-card {
     /* background-color: #f8f9fa;
