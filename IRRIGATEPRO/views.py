@@ -39,7 +39,7 @@ def get_latest_soil_moisture():
 
     # Extract the latest soil moisture data from the snapshot
     for key, value in snapshot.items():
-        return value  # Assuming the data is a single value
+        return value.get('value')  # Extract just the 'value' field  # Assuming the data is a single value
 
 def index(request):
     moisture_data = get_latest_soil_moisture()
@@ -281,14 +281,11 @@ def graphs(request):
     # Extract timestamp and moisture values
     timestamps = []
     moisture_values = []
-    if isinstance(snapshot, dict):
-            for key, value in snapshot.items():
-                # Ensure value is a dictionary and contains expected keys
-                if isinstance(value, dict) and 'timestamp' in value and 'moisture' in value:
-                    timestamps.append(value['timestamp'])
-                    moisture_values.append(value['moisture'])
-                else:
-                    print(f"Unexpected data format for key {key}: {value}")
+    
+    for key, value in snapshot.items():
+        timestamps.append(value['timestamp'])
+        moisture_values.append(value['moisture'])
+   
     # for key, value in snapshot.items():
     #     timestamps.append(value['timestamp'])
     #     moisture_values.append(value['moisture'])
