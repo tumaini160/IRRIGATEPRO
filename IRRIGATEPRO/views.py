@@ -39,7 +39,7 @@ def get_latest_soil_moisture():
 
     # Extract the latest soil moisture data from the snapshot
     for key, value in snapshot.items():
-        return value.get('value')  # Extract just the 'value' field  # Assuming the data is a single value
+        return value.get('value')  # Extract just the 'value' field
 
 def index(request):
     moisture_data = get_latest_soil_moisture()
@@ -284,8 +284,7 @@ def graphs(request):
     
     for key, value in snapshot.items():
         timestamps.append(value['timestamp'])
-        moisture_values.append(value['moisture'])
-   
+        moisture_values.append(value['value'])
     # for key, value in snapshot.items():
     #     timestamps.append(value['timestamp'])
     #     moisture_values.append(value['moisture'])
