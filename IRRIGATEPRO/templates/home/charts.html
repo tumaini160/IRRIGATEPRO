@@ -15,15 +15,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <style>
-        body, html {
+        body{
             font-family:'Roboto';
-            height: 100%;
-            margin: 0;
             display: flex;
-            flex-direction: column;
+            flex-direction:column;
             justify-content: center;
             align-items: center;
-            background-color: #f8f9fa; /* Optional: To match the navbar color */
+            height: 100vh;
+            margin: 0;
+            {% comment %} background-color: #f8f9fa; /* Optional: To match the navbar color */ {% endcomment %}
         }
         .carousel-container {
             width: 100%;
@@ -165,12 +165,14 @@
             createChart(document.getElementById('myChart2').getContext('2d'), 'line', chartData2, chartOptions);
             createChart(document.getElementById('myChart3').getContext('2d'), 'line', chartData3, chartOptionsTime);
 
-            $('#prevBtn').click(function() {
-                $('#chartCarousel').carousel('prev');
-            });
-
-            $('#nextBtn').click(function() {
-                $('#chartCarousel').carousel('next');
+            $(document).ready(function() {
+                $('#prevBtn').click(function() {
+                    $('#chartCarousel').carousel('prev');
+                });
+      
+                $('#nextBtn').click(function() {
+                    $('#chartCarousel').carousel('next');
+                });
             });
         });
     </script>
