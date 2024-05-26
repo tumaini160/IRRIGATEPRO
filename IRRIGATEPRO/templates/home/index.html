@@ -2,86 +2,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <link rel="stylesheet" type="text/css" href="{% static 'home/main.css' %}">
+    <meta charset="UTF-8">
+    <title>Charts/Graphs</title>
+    <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/results.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa; /* Optional: To match the navbar color */
+        }
+        .carousel-container {
+            width: 100%;
+            max-width: 900px; /* Adjust this to control the width of the carousel */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-inner {
+            width: 100%;
+        }
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 50px;
+            height: 50px;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            opacity: 0.7;
+        }
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            width: 30px;
+            height: 30px;
+            background-size: 100%;
+            background-color: transparent;
+        }
+        .carousel-control-prev-icon {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/59/Chevron_left_font_awesome.svg');
+            transform: rotate(180deg);
+        }
+        .carousel-control-next-icon {
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/59/Chevron_left_font_awesome.svg');
+        }
+        .carousel-control-next {
+            background-color: #007bff; /* Change this to the desired background color */
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-      <a class="navbar-brand" href="{% url 'index' %}">IrrigatePro</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'historic_data' %}">historic datas</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'graphs' %}">Graphs</a>
-          </li>
-        </ul>
-      </div>
+        <a class="navbar-brand" href="{% url 'index' %}">IrrigatePro</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'historic_data' %}">historic datas</a>
+            </li>
+          </ul>
+        </div>
     </nav>
-  
-    <!-- Form Section -->
-      <div  style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <div class="container">
-          <div class="container heading">
-            <h1>Latest Soil Moisture Data</h1>
-            <p>Soil Moisture: {{ moisture_data }}</p>
-            <h4>Get Irrigation Management Details</h4>
-            <p>Please fill out the form below to receive irrigation management details.</p>
-          </div>
-          <div class="container form-container">
-            <div class="row justify-content-center">
-              <div class="col-md-6">
-                <form action="{% url 'results' %}" method="POST" >
-                  {% csrf_token %}
-                  <div class="form-group">
-                    <input placeholder="Enter your crop type name eg Tomato." type="text" class="form-control" id="crop" name="crop" required>
-                  </div>
-                  <div class="form-group">
-                      <input placeholder="Enter your city name eg Dar es salaam" type="text" class="form-control" id="city" name="city" required>
-                  </div>
-                  <div class="form-group">
-                      <select class="form-control" id="dropdown" name="yr" required>
-                        <option value="leap year">Leap year</option>
-                        <option value="normal year">Standard year</option>
-                      </select>
-                      <div id="emailHelp" class="form-text">Leap or Standard? Customize your year type with a simple click!</div>
-                  </div>
-                  <div class="form-group">
-                    <input placeholder="Enter area of the field to be irrigated in square milimeter" type="number" step="any" class="form-control" id="Ai" name="Ai" required>
-                  </div>
-                    <div class="form-group">
-                      <input placeholder="Enter Crop coefficient value" type="number" step="any" class="form-control" id="KC" name="KC" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary submit">Submit</button>
 
-                </form>
-              </div>
+    <div class="carousel-container">
+        <div id="chartCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container">
+                        <canvas id="myChart" width="800" height="400"></canvas>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <canvas id="myChart2" width="800" height="400"></canvas>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="container">
+                        <canvas id="myChart3" width="800" height="400"></canvas>
+                    </div>
                 </div>
             </div>
-          </div>
-      
-
+            <a class="carousel-control-prev" href="#chartCarousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#chartCarousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+        <div class="carousel-control-custom">
+            <button id="prevBtn" class="btn btn-primary"><i class="fas fa-chevron-left"></i></button>
+            <button id="nextBtn" class="btn btn-primary"><i class="fas fa-chevron-right"></i></button>
+        </div>
     </div>
-    
-    
-  
-    <!-- Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="{% static 'home/main.js' %}"></script>
-</body>
-</html>
+    <script>
+        $(document).ready(function() {
+            function createChart(ctx, type, data, options) {
+                return new Chart(ctx, {
+                    type: type,
+                    data: data,
+                    options: options
+                });
+            }
+
+            var chartData1 = {
+                labels: {{ labels|safe }},
+                datasets: [{
+                    label: 'ET0 VARIATION DURING TIME STAGE WITH PENMAN-MONTEITH METHOD',
+                    data: {{ data|safe }},
+                    backgroundColor: '#004d7f',
+                    borderColor: '#004d7f',
+                    borderWidth: 1
+                }]
+            };
+
+            var chartData2 = {
+                labels: {{ labels2|safe }},
+                datasets: [{
+                    label: 'ET0 VARIATION DURING TIME STAGE WITH BLANEY-CRIDDLE METHOD',
+                    data: {{ data2|safe }},
+                    fill: false,
+                    backgroundColor: '#004d7f',
+                    borderColor: '#004d7f',
+                    borderWidth: 1,
+                    tension: 0.1
+                }]
+            };
+
+            var chartData3 = {
+                labels: JSON.parse('{{ timestamps|escapejs }}'),
+                datasets: [{
+                    label: 'SOIL MOISTURE PERCENTAGE VARIATION
