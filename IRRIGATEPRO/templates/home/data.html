@@ -29,7 +29,7 @@
     
     .search-input {
       padding: 10px;
-      border: 1px solid #004d7f !important;;
+      border: 2px solid #004d7f !important;;
       border-radius: 1px;
       outline: none;
       flex-grow: 1;
@@ -113,7 +113,7 @@
         <form action="{% url 'weather_data' %}" method="POST">
           {% csrf_token %}
           <div class="search-container">
-            <input type="text" class="search-input" placeholder="City name...">
+            <input type="text" class="search-input" placeholder="City name..." id="city" name="city" required>
             <button class="search-button">
               <i class="fas fa-search"></i>
             </button>
@@ -185,14 +185,6 @@
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#tableCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#tableCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
         <div class="carousel-control-custom">
             <button id="prevBtn" class="btn btn-outline-primary"><i class="fas fa-chevron-left"></i></button>
@@ -201,14 +193,12 @@
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#prevBtn').click(function() {
-                $('#tableCarousel').carousel('prev');
-            });
+        $('#prevBtn').click(function() {
+            $('#tableCarousel').carousel('prev');
+        });
 
-            $('#nextBtn').click(function() {
-                $('#tableCarousel').carousel('next');
-            });
+        $('#nextBtn').click(function() {
+            $('#tableCarousel').carousel('next');
         });
     </script>
 
