@@ -235,29 +235,37 @@ def results(request):
                         return render(request, 'home/noirrigation.html')
    
 
-def weather_forecasting(request): 
+def weather_forecasting(request):
     if request.method == 'POST':
         city = request.POST['city']
         api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"  # Replace with your Tomorrow.io API key
         url = f"https://api.tomorrow.io/v4/weather/forecast?location={city}&timesteps=1d&apikey={api_key}"
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers)
+        
         if response.status_code == 200:
             data = response.json()
-            weather= data['timelines']['daily']
+            weather = data['timelines']['daily']
             weather_forecast = [{
                 "time": daily["time"],
-                "temperature": daily["values"]["temperatureAvg"],
-                "humidity": daily["values"]["humidityAvg"],
-                "wind_speed": daily["values"]["windSpeedAvg"],
-                "prep_prob": daily["values"]["precipitationProbabilityAvg"],
-                "rain_intensity": daily["values"]["rainIntensityAvg"],
-                "uvIndex": daily["values"]["uvIndexAvg"],
-                "sunrise": daily["values"]["sunriseTime"],
-                "sunset": daily["values"]["sunsetTime"]
-                }
-                for daily in weather]
-            return render(request, 'home/data.html', {'result_data':weather_forecast})
+                "temperature": daily["values"].get("temperatureAvg", 0),
+                "humidity": daily["values"].get("humidityAvg", 0),
+                "wind_speed": daily["values"].get("windSpeedAvg", 0),
+                "prep_prob": daily["values"].get("precipitationProbabilityAvg", 0),
+                "rain_intensity": daily["values"].get("rainIntensityAvg", 0),
+                "uvIndex": daily["values"].get("uvIndexAvg", 0),  # Use .get() with a default value of 0
+                "sunrise": daily["values"].get("sunriseTime", ""),
+                "sunset": daily["values"].get("sunsetTime", "")
+            } for daily in weather]
+            return render(request, 'home/weather.html', {'weather': weather_forecast})
+        
+        else:
+            # Handle the case where the response status is not 200
+            return render(request, 'home/error.html')
+    else:
+        # Handle GET request or other request methods
+        return render(request, 'home/error.html')
+        
 def historic_data(request):
     
     results_data1 = Table1.objects.all()
