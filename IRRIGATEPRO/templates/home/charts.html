@@ -46,6 +46,11 @@
             margin: 5px;
             border-radius:1px;
         }
+        .box{
+            width:800px;
+            height:500px;
+            background-Color:#004d7f !important
+        }
     </style>
 </head>
 <body>
@@ -71,13 +76,13 @@
         <div id="chartCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <canvas id="myChart" width="800" height="400"></canvas>
+                    <div class="box">3</div>
                 </div>
                 <div class="carousel-item">
-                    <canvas id="myChart2" width="800" height="400"></canvas>
+                    <div class="box">2</div>
                 </div>
                 <div class="carousel-item">
-                    <canvas id="myChart3" width="800" height="400"></canvas>
+                    <div class="box">1</div>
                 </div>
             </div>
         </div>
@@ -88,7 +93,7 @@
     </div>
 
     <script>
-        $(document).ready(function() {
+        {% comment %} $(document).ready(function() {
             function createChart(ctx, type, data, options) {
                 return new Chart(ctx, {
                     type: type,
@@ -157,7 +162,7 @@
             createChart(document.getElementById('myChart2').getContext('2d'), 'line', chartData2, chartOptions);
             createChart(document.getElementById('myChart3').getContext('2d'), 'line', chartData3, chartOptionsTime);
            
-        });
+        }); {% endcomment %}
 
         $(document).ready(function() {
             $('#prevBtn').click(function() {
