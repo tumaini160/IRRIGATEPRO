@@ -71,19 +71,13 @@
         <div id="chartCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <div class="container">
-                        <canvas id="myChart" width="800" height="400"></canvas>
-                    </div>
+                    <canvas id="myChart" width="800" height="400"></canvas>
                 </div>
                 <div class="carousel-item">
-                    <div class="container">
-                        <canvas id="myChart2" width="800" height="400"></canvas>
-                    </div>
+                    <canvas id="myChart2" width="800" height="400"></canvas>
                 </div>
                 <div class="carousel-item">
-                    <div class="container">
-                        <canvas id="myChart3" width="800" height="400"></canvas>
-                    </div>
+                    <canvas id="myChart3" width="800" height="400"></canvas>
                 </div>
             </div>
         </div>
@@ -111,7 +105,6 @@
                     backgroundColor: '#004d7f',
                     borderColor: '#004d7f',
                     borderWidth: 1,
-                    tension: 0.1
                 }]
             };
 
@@ -124,7 +117,6 @@
                     backgroundColor: '#004d7f',
                     borderColor: '#004d7f',
                     borderWidth: 1,
-                    tension: 0.1
                 }]
             };
 
@@ -136,7 +128,6 @@
                     backgroundColor: '#004d7f',
                     borderColor: '#004d7f',
                     borderWidth: 1,
-                    tension: 0.1
                 }]
             };
 
@@ -165,15 +156,16 @@
             createChart(document.getElementById('myChart').getContext('2d'), 'line', chartData1, chartOptions);
             createChart(document.getElementById('myChart2').getContext('2d'), 'line', chartData2, chartOptions);
             createChart(document.getElementById('myChart3').getContext('2d'), 'line', chartData3, chartOptionsTime);
+           
+        });
 
-            $(document).ready(function() {
-                $('#prevBtn').click(function() {
-                    $('#chartCarousel').carousel('prev');
-                });
-      
-                $('#nextBtn').click(function() {
-                    $('#chartCarousel').carousel('next');
-                });
+        $(document).ready(function() {
+            $('#prevBtn').click(function() {
+                $('#chartCarousel').carousel('prev');
+            });
+  
+            $('#nextBtn').click(function() {
+                $('#chartCarousel').carousel('next');
             });
         });
     </script>
