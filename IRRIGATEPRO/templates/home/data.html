@@ -7,8 +7,49 @@
   <title>Historic Datas</title>
   <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/premium/png-512-thumb/irrigation-3-570346.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" type="text/css" href="{% static 'home/results.css' %}">
   <style>
+    body {
+      display: flex;
+      flex-direction:column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 10px; /* Gap between search input and button */
+    }
+    
+    .search-input {
+      padding: 10px;
+      border: 1px solid #004d7f !important;;
+      border-radius: 1px;
+      outline: none;
+      flex-grow: 1;
+    }
+    
+    .search-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      background-color: #004d7f !important;;
+      border: none;
+      border-radius: 1px;
+      cursor: pointer;
+      color: white; /* Set icon color to white for better visibility */
+    }
+    
+    .search-button i {
+      font-size: 16px; /* Adjust the size of the icon as needed */
+    }
+    
     .table-wrapper {
       margin-bottom: 20px;
     }
@@ -32,6 +73,9 @@
     .submit{
       background-color: #004d7f !important;
       text-transform: uppercase;
+    }
+    #btn{
+      margin: 5px;
     }
 
     @media (max-width: 768px) {
@@ -63,15 +107,33 @@
           </ul>
         </div>
       </nav>
+      <div>
+        <h4 class="caption">Get Weather Updates: Type Your City and Click Search</h4>
+        <form action="{% url 'weather_data' %}" method="POST">
+          {% csrf_token %}
+          <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search...">
+            <button class="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
 
       
 
-      <div  style="display: flex; justify-content: center; align-items: center; height: 100vh; padding:32px; margin:60px; flex-direction: column;">
+      {% comment %} <div  style="display: flex; justify-content: center; align-items: center; height: 100vh; padding:32px; margin:60px; flex-direction: column;">
         <div class="container searchbox">
           <h4 class="caption">Get Weather Updates: Type Your City and Click Search</h4>
+          <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search...">
+            <button class="search-button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
           <form action="{% url 'weather_data' %}" method="POST" >
             {% csrf_token %}
-            <div class="input-group mb-3">
+            <div id="btn" class="input-group mb-3">
               <input type="text" class="form-control" placeholder="City name..." aria-label="Search" id="city" name="city" required>
               <button class="btn btn-primary submit" type="submit">Search</button>
             </div>
@@ -157,7 +219,7 @@
         </div>
       </div>
           
-      </div>
+      </div> {% endcomment %}
   
 
 

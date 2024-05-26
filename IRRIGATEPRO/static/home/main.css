@@ -108,6 +108,7 @@ body {
   .submit{
     background-color: #004d7f !important;
     text-transform: uppercase;
+    border-radius: 1px;
   }
   .step3Header{
     display:flex;
