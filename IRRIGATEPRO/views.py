@@ -1,3 +1,4 @@
+# Create your views here.
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 import requests
@@ -119,7 +120,7 @@ def results(request):
                         IR = IR,
                         Dw = Dw,
                         IDG = ID,
-                        Wf = 1,
+                        Wf = Ifr,
                         city = city
                         ) 
                     
