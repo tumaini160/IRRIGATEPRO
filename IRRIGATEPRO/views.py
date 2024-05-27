@@ -51,7 +51,7 @@ def results(request):
             rain_intensity = data['timelines']['daily'][0]['values']['rainIntensityAvg']
             threshold_rain_prob = 50
             sensor_data = get_latest_soil_moisture()
-            smin = 61.25
+            smin = 38.75
             gw = 0.00112486  # Groundwater Contribution (mm/day)
             sw = 0.002812148571  # Soil Water Depleted (mm/day)
             ie = 50  # Irrigation efficiency
