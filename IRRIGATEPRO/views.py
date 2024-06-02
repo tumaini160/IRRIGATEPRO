@@ -45,6 +45,7 @@ def results(request):
             headers = {"accept": "application/json"}
             response = requests.get(url, headers=headers)
             data = response.json()
+            print(data)
 
             rain_prob = data['timelines']['daily'][0]['values']['precipitationProbabilityAvg']
             tmean = data['timelines']['daily'][0]['values']['temperatureAvg']
@@ -54,11 +55,11 @@ def results(request):
             smin = 38.75
             gw = 0.00112486  # Groundwater Contribution (mm/day)
             sw = 0.002812148571  # Soil Water Depleted (mm/day)
-            ie = 50  # Irrigation efficiency
-            h = 15.24  # Root depth (cm)
+            ie = 80  # Irrigation efficiency
+            h = 0.045  # Root depth (m)
             f = 50  # Water availability in the soil
             q = 40.5  # Flow rate (mm3/s)
-            dnet = h * 122.50 * f
+            dnet = 2.76 #in (mm)
 
             if 'timelines' in data and 'daily' in data['timelines'] and 'values' in data['timelines']['daily'][0]:
                 current_data = data['timelines']['daily'][0]['values']
