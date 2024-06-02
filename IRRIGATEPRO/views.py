@@ -39,9 +39,17 @@ def results(request):
             field_area = request.POST['Ai']
             crop_coefficient = request.POST['KC']
             crop_type = request.POST['crop']
+            api_key = "e1945ce89b7b434b92b10f8ec8625f97"
             
-            api_key = '0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo'
-            url = f'https://api.tomorrow.io/v4/weather/forecast?location={city}&apikey={api_key}'
+            url1 = f"https://api.opencagedata.com/geocode/v1/json?q={city}&key={api_key}"
+            response1 = requests.get(url1)
+            data1 = response1.json()
+            
+            lat = data1['results'][0]['geometry']['lat']
+            lon = data1['results'][0]['geometry']['lng']
+            
+            Api_key = '0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo'
+            url = f'https://api.tomorrow.io/v4/weather/forecast?location={lat},{lon}&apikey={Api_key}'
             headers = {"accept": "application/json"}
             response = requests.get(url, headers=headers)
             data = response.json()
@@ -82,7 +90,7 @@ def results(request):
                         ep = prep * (125 - (0.2 * prep)) / 125
 
                     if rain_prob < threshold_rain_prob:
-                        if sensor_data >= smin:
+                        if sensor_data <= smin:
                             irn = etc - ep - gw - sw
                             ir = irn / ie
                         else:
@@ -140,7 +148,7 @@ def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dne
         ep = prep * (125 - (0.2 * prep)) / 125
 
     if rain_prob < threshold_rain_prob:
-        if sensor_data >= smin:
+        if sensor_data <= smin:
             irn = etc - ep - gw - sw
             ir = irn / ie
         else:
