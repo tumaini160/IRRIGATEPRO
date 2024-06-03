@@ -53,14 +53,12 @@ def results(request):
             headers = {"accept": "application/json"}
             response = requests.get(url, headers=headers)
             data = response.json()
-            print(data)
-
             rain_prob = data['timelines']['daily'][0]['values']['precipitationProbabilityAvg']
             tmean = data['timelines']['daily'][0]['values']['temperatureAvg']
             rain_intensity = data['timelines']['daily'][0]['values']['rainIntensityAvg']
             threshold_rain_prob = 50
             sensor_data = get_latest_soil_moisture()
-            smin = 38.75
+            smin = 50
             gw = 0.00112486  # Groundwater Contribution (mm/day)
             sw = 0.002812148571  # Soil Water Depleted (mm/day)
             ie = 80  # Irrigation efficiency
@@ -82,6 +80,7 @@ def results(request):
 
                     reference_et0 = calculate_et0(temperature, humidity, wind_speed, solar_rad)
                     etc = int(float(crop_coefficient)) * reference_et0
+                    print(etc)
                     ifr = int(dnet / etc)
 
                     if prep > 250:
@@ -90,7 +89,7 @@ def results(request):
                         ep = prep * (125 - (0.2 * prep)) / 125
 
                     if rain_prob < threshold_rain_prob:
-                        if sensor_data <= smin:
+                        if sensor_data >= smin:
                             irn = etc - ep - gw - sw
                             ir = irn / ie
                         else:
