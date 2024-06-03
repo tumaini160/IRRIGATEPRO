@@ -79,7 +79,7 @@ def results(request):
                     prep = rain_intensity * 1
 
                     reference_et0 = calculate_et0(temperature, humidity, wind_speed, solar_rad)
-                    etc = int(float(crop_coefficient)) * reference_et0
+                    etc = float(crop_coefficient) * reference_et0
                     print(etc)
                     ifr = int(dnet / etc)
 
@@ -137,7 +137,7 @@ def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dne
         pdth = (tdhi_y / thiy) * 100
         et0 = pdth * ((0.46 * tmean) + 8.13)
 
-    etc = int(float(crop_coefficient)) * et0
+    etc = float(crop_coefficient) * et0
     ifr = int(dnet / etc)
     prep = rain_intensity * 1
 
