@@ -180,8 +180,16 @@ def weather_forecasting(request):
     if request.method == 'POST':
         try:
             city = request.POST['city']
+            api_key = "e1945ce89b7b434b92b10f8ec8625f97"
+            
+            url1 = f"https://api.opencagedata.com/geocode/v1/json?q={city}&key={api_key}"
+            response1 = requests.get(url1)
+            data1 = response1.json()
+            
+            lat = data1['results'][0]['geometry']['lat']
+            lon = data1['results'][0]['geometry']['lng']
             api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"
-            url = f"https://api.tomorrow.io/v4/weather/forecast?location={city}&timesteps=1d&apikey={api_key}"
+            url = f"https://api.tomorrow.io/v4/weather/forecast?location={lat},{lon}&timesteps=1d&apikey={api_key}"
             headers = {"accept": "application/json"}
             response = requests.get(url, headers=headers)
 
