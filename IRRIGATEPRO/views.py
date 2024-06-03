@@ -188,8 +188,8 @@ def weather_forecasting(request):
             
             lat = data1['results'][0]['geometry']['lat']
             lon = data1['results'][0]['geometry']['lng']
-            api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"
-            url = f"https://api.tomorrow.io/v4/weather/forecast?location={lat},{lon}&timesteps=1d&apikey={api_key}"
+            Api_key = "0ZK2c3TkJHFmt2TA6ZbRQ4HPSOx4itPo"
+            url = f"https://api.tomorrow.io/v4/weather/forecast?location={lat},{lon}&timesteps=1d&apikey={Api_key}"
             headers = {"accept": "application/json"}
             response = requests.get(url, headers=headers)
 
