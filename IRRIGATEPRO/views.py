@@ -64,7 +64,7 @@ def results(request):
             ie = 80  # Irrigation efficiency
             h = 0.045  # Root depth (m)
             f = 50  # Water availability in the soil
-            q = 40.5  # Flow rate (mm3/s)
+            # q = 40.5  # Flow rate (mm3/s)
             dnet = 2.76 #in (mm)
 
             if 'timelines' in data and 'daily' in data['timelines'] and 'values' in data['timelines']['daily'][0]:
@@ -80,7 +80,11 @@ def results(request):
 
                     reference_et0 = calculate_et0(temperature, humidity, wind_speed, solar_rad)
                     etc = float(crop_coefficient) * reference_et0
-                    print(etc)
+                    Wr = etc * 10000 #in(L/ha/day)
+                    eff = Wr/0.8
+                    t = eff/10000
+                    q = eff/t
+                    
                     ifr = int(dnet / etc)
 
                     if prep > 250:
@@ -89,7 +93,7 @@ def results(request):
                         ep = prep * (125 - (0.2 * prep)) / 125
 
                     if rain_prob < threshold_rain_prob:
-                        if sensor_data >= smin:
+                        if sensor_data <= smin:
                             irn = etc - ep - gw - sw
                             ir = irn / ie
                         else:
@@ -99,7 +103,7 @@ def results(request):
 
                     if ir > 0:
                         dw = h * 122.50 * f / ie
-                        id = 2.78 * dw * int(field_area) / q
+                        id = 2.78 * dw * float(field_area) / q
                         irr_data = Table1(
                             CropType=crop_type,
                             SoilMoistureValue=sensor_data,
@@ -123,7 +127,7 @@ def results(request):
             return render(request, 'home/error.html', {'error': str(e)})
 
 
-def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dnet, rain_intensity, rain_prob, threshold_rain_prob, sensor_data, smin, gw, sw, ie, h, f, q, field_area, crop_type, city):
+def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dnet, rain_intensity, rain_prob, threshold_rain_prob, sensor_data, smin, gw, sw, ie, h, f, field_area, crop_type, city):
     if year_type == 'leap year':
         ahpd = (12.5 + 11.8) / 2
         tdhi_y = ahpd * 366
@@ -138,6 +142,10 @@ def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dne
         et0 = pdth * ((0.46 * tmean) + 8.13)
 
     etc = float(crop_coefficient) * et0
+    Wr = etc * 10000 #in(L/ha/day)
+    eff = Wr/0.8
+    t = eff/10000
+    q = eff/t
     ifr = int(dnet / etc)
     prep = rain_intensity * 1
 
@@ -157,7 +165,7 @@ def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dne
 
     if ir > 0:
         dw = h * 122.5 * f / ie
-        id = 2.78 * dw * int(field_area) / q
+        id = 2.78 * dw * float(field_area) / q
         irr_data = Table2(
             CropType=crop_type,
             SoilMoistureValue=sensor_data,
