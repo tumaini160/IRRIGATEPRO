@@ -77,9 +77,11 @@ WSGI_APPLICATION = 'irrigationmanagementsystem.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
+ex_link = "postgres://tumaini:TsWNVkzqS7PscInw2jK8rm1a5h7IYNip@dpg-cpjklbljm4es73bufir0-a.oregon-postgres.render.com/irrigatepro_op4v"
+in_link = "postgres://tumaini:TsWNVkzqS7PscInw2jK8rm1a5h7IYNip@dpg-cpjklbljm4es73bufir0-a/irrigatepro_op4v"
 
 DATABASES = {
-     'default': dj_database_url.parse("postgres://irrigateprodb_user:VDHPkNlFDqHkEsphAMANUOk9dNPyNCyw@dpg-cp9hc7kf7o1s73a0q9o0-a/irrigateprodb")
+     'default': dj_database_url.parse(in_link)
 }
 
 
