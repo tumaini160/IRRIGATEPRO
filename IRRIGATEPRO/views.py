@@ -179,9 +179,6 @@ def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dne
             city=city
         )
         irr_data.save()
-        return redirect('fetch_result_data2')
-    else:
-        return render(request, 'home/noirrigation.html')
 
 
 def weather_forecasting(request):
