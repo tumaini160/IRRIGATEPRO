@@ -67,7 +67,7 @@ def results(request):
             # q = 40.5  # Flow rate (mm3/s)
             dnet = 2.76 #in (mm)
             
-            handle_missing_weather_data(year_type, tmean, crop_coefficient, dnet, rain_intensity, rain_prob, threshold_rain_prob, sensor_data, smin, gw, sw, ie, h, f, q, field_area, crop_type, city)
+            handle_missing_weather_data(year_type, tmean, crop_coefficient, dnet, rain_intensity, rain_prob, threshold_rain_prob, sensor_data, smin, gw, sw, ie, h, f, field_area, crop_type, city)
 
             if 'timelines' in data and 'daily' in data['timelines'] and 'values' in data['timelines']['daily'][0]:
                 current_data = data['timelines']['daily'][0]['values']
@@ -179,6 +179,9 @@ def handle_missing_weather_data(request, year_type, tmean, crop_coefficient, dne
             city=city
         )
         irr_data.save()
+        return redirect('fetch_result_data2')
+    else:
+        return render(request, 'home/noirrigation.html')
 
 
 def weather_forecasting(request):
