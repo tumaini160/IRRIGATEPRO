@@ -66,6 +66,8 @@ def results(request):
             f = 50  # Water availability in the soil
             # q = 40.5  # Flow rate (mm3/s)
             dnet = 2.76 #in (mm)
+            
+            handle_missing_weather_data(year_type, tmean, crop_coefficient, dnet, rain_intensity, rain_prob, threshold_rain_prob, sensor_data, smin, gw, sw, ie, h, f, q, field_area, crop_type, city)
 
             if 'timelines' in data and 'daily' in data['timelines'] and 'values' in data['timelines']['daily'][0]:
                 current_data = data['timelines']['daily'][0]['values']
@@ -120,8 +122,6 @@ def results(request):
                         return redirect('fetch_result_data1')
                     else:
                         return render(request, 'home/noirrigation.html')
-                else:
-                    return handle_missing_weather_data(year_type, tmean, crop_coefficient, dnet, rain_intensity, rain_prob, threshold_rain_prob, sensor_data, smin, gw, sw, ie, h, f, q, field_area, crop_type, city)
         except Exception as e:
             print(f"Error: {e}")
             return render(request, 'home/error.html', {'error': str(e)})
